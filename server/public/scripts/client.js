@@ -66,7 +66,7 @@ function renderToDom(jokes) {
   $("#outputDiv").empty();
   for (let joke of jokes) {
     $("#outputDiv").append(`
-              <p>${joke.whoseJoke}
+              <p><b>${joke.whoseJoke}:</b> 
               ${joke.jokeQuestion}
               ${joke.punchLine}</p>
           `);
