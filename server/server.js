@@ -41,7 +41,16 @@ app.listen(PORT, () => {
   console.log("server running on: ", PORT);
 });
 
+let newJoke;
+
 app.get("/jokes", function (req, res) {
   console.log("Request for /jokes was made");
+  res.send(jokes);
+});
+
+app.post("/newJoke", function (req, res) {
+  newJoke = req.body;
+  console.log("Server received the new joke!", newJoke);
+  jokes.unshift(newJoke);
   res.send(jokes);
 });

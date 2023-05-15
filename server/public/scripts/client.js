@@ -4,8 +4,9 @@ $(document).ready(onReady);
 
 function onReady() {
   console.log("DOM ready");
-  //event listener for submit button that goes to a post request
+  //adds
   getJokes();
+  $("#addJokeButton").on("click", handleSubmit);
 }
 
 function getJokes() {
@@ -22,6 +23,41 @@ function getJokes() {
       alert("Request failed! :(");
       console.log("Request failed: ", error);
     });
+}
+
+function handleSubmit() {
+  console.log("Inside handleSubmit Function");
+  //collect value in input fields and saves them to variables
+  let jokeAuthor = $("#whoseJokeIn").val();
+  let jokeQuestion = $("#questionIn").val();
+  let jokePunchLine = $("#punchlineIn").val();
+  // collects all variables in an object
+  let newJoke = {
+    jokeAuthor: jokeAuthor,
+    jokeQuestion: jokeQuestion,
+    jokePunchLine: jokePunchLine,
+  };
+  console.log("A new joke!:", newJoke);
+  //Posts the new joke to the server
+  $.ajax({
+    method: "POST",
+    url: "/newJoke",
+    data: newJoke,
+  })
+    //Receives back full array of jokes, now including the new joke
+    //and passes it to the renderToDOM function
+    .then(function (response) {
+      console.log("Jokes received!", response);
+      renderToDom(response);
+    })
+    .catch(function (error) {
+      alert("post failed!", error);
+    });
+
+  //Empties out the input fields to prepare for MORE JOKES!
+  $("#whoseJokeIn").val("");
+  $("#questionIn").val("");
+  $("#punchlineIn").val("");
 }
 
 function renderToDom(jokes) {
