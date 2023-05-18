@@ -33,22 +33,22 @@ function handleSubmit() {
   let jokePunchLine = $("#punchlineIn").val();
   // collects all variables in an object
   let newJoke = {
-    jokeAuthor: jokeAuthor,
+    whoseJoke: jokeAuthor,
     jokeQuestion: jokeQuestion,
-    jokePunchLine: jokePunchLine,
+    punchLine: jokePunchLine,
   };
   console.log("A new joke!:", newJoke);
   //Posts the new joke to the server
   $.ajax({
     method: "POST",
-    url: "/newJoke",
+    url: "/jokes",
     data: newJoke,
   })
     //Receives back full array of jokes, now including the new joke
     //and passes it to the renderToDOM function
     .then(function (response) {
       console.log("Jokes received!", response);
-      renderToDom(response);
+      getJokes();
     })
     .catch(function (error) {
       alert("post failed!", error);
@@ -66,7 +66,7 @@ function renderToDom(jokes) {
   $("#outputDiv").empty();
   for (let joke of jokes) {
     $("#outputDiv").append(`
-              <p><b>${joke.whoseJoke}:</b> 
+              <p><b>${joke.whoseJoke}:</b>
               ${joke.jokeQuestion}
               ${joke.punchLine}</p>
           `);
